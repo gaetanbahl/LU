@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Name:        Live Unit
+# Name:        Life Unit
 # Purpose:     Simulation de vie dans un univers restreint
 #
 # Author:      Timosis
