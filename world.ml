@@ -8,10 +8,12 @@ module World = struct (*should we abstract everything ?*)
     type coordinates = float * float
     type type_coord = Spheriques | Cartesiennes
     
-    type bestiole = {pos : coordinates ; actions : string Q.queue} 
+    type lifeunit = {pos : coordinates ; actions : string Q.queue} 
     type biome = Desert | Foret | Ocean
     type biome_spot = {type_biome : biome ;  pos : coordinates ; power : float}
-    type world = {rayon : int ; coord : type_coord ; biomes : biome list ; bestioles : bestiole list}
+    type resource = Food | Water | Material
+    type resource_point = {pos : coordinates ; res_type : resource}
+    type world = {rayon : int ; coord : type_coord ; biomes : biome list ; lifeunits : lifeunit list}
 
     let sq x = x*.x
      
