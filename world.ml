@@ -8,15 +8,26 @@ module World = struct (*should we abstract everything ?*)
     type coordinates = float * float
     type type_coord = Spheriques | Cartesiennes
     
-    type lifeunit = {mutable pos : coordinates ; mutable actions : string Q.queue ; mutable carry : resource}
+    type lifeunit = {id : int ;
+        mutable pos : coordinates ;
+        mutable actions : string Q.queue ;
+        mutable carry : resource}
     
     type biome = Desert | Foret | Ocean
-    type biome_spot = {type_biome : biome ;  pos : coordinates ; power : float}
+    type biome_spot = {type_biome : biome ;
+        pos : coordinates ;
+        power : float}
     
     type resource = Food | Water | Material | Nothing
-    type resource_point = {pos : coordinates ; res_type : resource ; mutable number : int}
+    type resource_point = {pos : coordinates ;
+        res_type : resource ;
+        mutable number : int}
     
-    type world = {rayon : int ; coord : type_coord ; mutable biomes : biome list ; mutable lifeunits : lifeunit*coordinates list}
+    type world = {rayon : int ; coord : type_coord ;
+        mutable biomes : biome list ;
+        mutable lifeunits : lifeunit*coordinates list
+        mutable resources_points : resource_point list
+        mutable actions : string Q.queue}
 
     let sq x = x*.x
      
@@ -31,8 +42,12 @@ module World = struct (*should we abstract everything ?*)
             acos ((sin phia)*.(sin phib) +. (cos phia)*.(cos phib)*.(cos(thetab -. thetaa)))
         |(xa,ya),(xb,yb),Cartesiennes -> sqrt (sq(xb -. xa) +. sq(yb -. ya))
             
-    let move lu,dest spd coord_type =
-        lu.pos <- ((((fst dest) -. (fst lu.pos))*.spd)/.(distance lu dest coord_type)),
-        ((((snd dest) -. (snd lu.pos))*.spd)/.(distance lu dest coord_type)) ;; (*Thalès*)
+    let move_sph lu,dest spd  =
+        lu.pos <- ((((fst dest) -. (fst lu.pos))*.spd )/.(distance lu dest Sphériques)),
+        ((((snd dest) -. (snd lu.pos))*.spd)/.(distance lu dest Spheriques)) ;; (*Thalès*)
+
+    let move_cart lu,dest spd  =
+        lu.pos <- ((((fst dest) -. (fst lu.pos))*.spd )/.(distance lu dest Cartesiennes)),
+        ((((snd dest) -. (snd lu.pos))*.spd)/.(distance lu dest Cartesiennes)) ;;
 
 end;;
