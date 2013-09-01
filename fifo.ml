@@ -12,5 +12,10 @@ module Q = struct
 
     let newq () = ref [];;
 
+    let rec empty_in a b = match !a with
+    [] -> failwith "empty queue"
+    | h::q -> add (pop a) b;;
+    
+
 end ;;
 
